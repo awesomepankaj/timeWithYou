@@ -1,0 +1,8 @@
+{
+  "name": "Time With You",
+  "description": "Time with you",
+  "repository": "https://github.com/awesomepankaj/timeWithYou",
+  "logo": "http://miss-america.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "static"],
+  "image": "heroku/nodejs"
+}
