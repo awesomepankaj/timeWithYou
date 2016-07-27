@@ -15,26 +15,34 @@ export default class MyAwesomeReactComponent extends React.Component {
         {
           title: 'Miss America',
           subtitle: 'Baby',
-          location: 'Ghoomakad',
-          locationContent: 'Lovely time at ghoomkad',
-          image: '../public/imgs/pankaj.jpg',
-          description: 'You are Looking co cute that was very lovely time with you.'
+          location: 'Kota',
+          locationContent: 'Sexy baby',
+          image: './images/IMG-20160713-WA0011.jpg',
+          description: "You Don't know but you are looking very beautifull and sexy baby"
         },
         {
           title: 'Miss America',
           subtitle: 'Baby',
           location: 'Ghoomakad',
-          locationContent: 'Lovely time at ghoomkad',
-          image: '../public/imgs/pankaj.jpg',
-          description: 'You are Looking co cute that was very lovely time with you.'
+          locationContent: 'Crazy',
+          image: './images/IMG_20160608_140210_HDR.jpg',
+          description: 'You are looking very crazy and I like your crazy look baby Love u.'
         },
         {
           title: 'Miss America',
           subtitle: 'Baby',
           location: 'Ghoomakad',
-          locationContent: 'Lovely time at ghoomkad',
-          image: '../public/imgs/pankaj.jpg',
-          description: 'You are Looking co cute that was very lovely time with you.'
+          locationContent: 'Second time',
+          image: './images/IMG_20160607_220123_HDR.jpg',
+          description: 'Second time when I met you in safe state that day you are not drunk.'
+        },
+        {
+          title: 'Miss America',
+          subtitle: 'Baby',
+          location: 'Ghoomakad',
+          locationContent: 'Want you',
+          image: './images/IMG_20160608_140340_HDR.jpg',
+          description: 'Cutie and cute lips.'
         }
       ]
     }
@@ -49,8 +57,8 @@ export default class MyAwesomeReactComponent extends React.Component {
             iconClassNameRight="muidocs-icon-navigation-expand-more"
           />
         </div>
-        {this.state.photosContent.map((photoInfo) => {
-          return <PhotoContainer photoInfo={photoInfo}/> 
+        {this.state.photosContent.map((photoInfo, i) => {
+          return <PhotoContainer photoInfo={photoInfo} key={i}/> 
         })}
       </div>
     )
