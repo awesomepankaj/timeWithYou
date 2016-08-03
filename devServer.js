@@ -1,29 +1,49 @@
 var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
-var config = require('./webpack.config.dev');
+var bodyParser = require('body-parser')
+var webpackConfig = require('./webpack.config.dev');
+var cloudinary = require('cloudinary')
+var config = require('./config')
+
 
 var app = express();
-var compiler = webpack(config);
+var compiler = webpack(webpackConfig);
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}));
+cloudinary.config(config.cloudinaryInfo);
+
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/public', express.static('public'));
 
+app.post('/addNewPhoto', function(req, res) {
+  
+  cloudinary.uploader.upload(req.body.imagePreviewUrl, function(result) { 
+
+    res.json({imageInfo: result})
+  });
+
+})
+
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: webpackConfig.output.publicPath
+}));
+
+//app.use(bodyParser.urlencoded({ extended: false }))
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3000, function(err) {
+app.listen(4000, function(err) {
   if (err) {
     console.log(err);
     return;
   }
 
-  console.log('Listening at http://localhost:3000');
+  console.log('Listening at http://localhost:4000');
 });

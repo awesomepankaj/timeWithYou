@@ -1,10 +1,14 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
 import PhotoContainer from './PhotoContainer'
+import AddNewPhoto from './AddNew'
  
 export default class MyAwesomeReactComponent extends React.Component {
 
@@ -44,22 +48,62 @@ export default class MyAwesomeReactComponent extends React.Component {
           image: './images/IMG_20160608_140340_HDR.jpg',
           description: 'Cutie and cute lips.'
         }
-      ]
+      ],
+      openDialog: false
     }
   }
+
+  handleClose = () => {
+    this.setState({
+      openDialog: false
+    })
+  }
+
+  showDialog = () => {
+  console.log('callong')
+    this.setState({
+      openDialog: true
+    })
+  } 
   
   render() {
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleClose}
+      />,
+    ];
+
+    let {openDialog} = this.state 
+
     return (
       <div className="container">
         <div className="header">
            <AppBar
             title="Only For U"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
+            iconElementRight={<FlatButton label="Add New Photo" onTouchTap={this.showDialog}/>}
           />
         </div>
         {this.state.photosContent.map((photoInfo, i) => {
           return <PhotoContainer photoInfo={photoInfo} key={i}/> 
         })}
+        <Dialog
+          title="Upload New Photo Baby"
+          actions={actions}
+          modal={false}
+          open={openDialog}
+          onRequestClose={this.handleClose}
+        >
+          <AddNewPhoto />
+        </Dialog>
       </div>
     )
   }
