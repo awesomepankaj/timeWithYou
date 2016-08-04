@@ -2,6 +2,8 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
+import Add from 'material-ui/svg-icons/content/add'
+import IconButton from 'material-ui/IconButton';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -49,7 +51,8 @@ export default class MyAwesomeReactComponent extends React.Component {
           description: 'Cutie and cute lips.'
         }
       ],
-      openDialog: false
+      openDialog: false,
+      showAddWindow: false
     }
   }
 
@@ -59,10 +62,10 @@ export default class MyAwesomeReactComponent extends React.Component {
     })
   }
 
-  showDialog = () => {
-  console.log('callong')
+  toggleAddWindow = () => {
+
     this.setState({
-      openDialog: true
+      showAddWindow: !this.state.showAddWindow
     })
   } 
   
@@ -82,28 +85,20 @@ export default class MyAwesomeReactComponent extends React.Component {
       />,
     ];
 
-    let {openDialog} = this.state 
+    let {openDialog, showAddWindow} = this.state 
 
     return (
       <div className="container">
         <div className="header">
            <AppBar
             title="Only For U"
-            iconElementRight={<FlatButton label="Add New Photo" onTouchTap={this.showDialog}/>}
+            iconElementRight={<IconButton onTouchTap={this.toggleAddWindow}><Add /></IconButton>}
           />
         </div>
-        {this.state.photosContent.map((photoInfo, i) => {
+        {!showAddWindow && this.state.photosContent.map((photoInfo, i) => {
           return <PhotoContainer photoInfo={photoInfo} key={i}/> 
         })}
-        <Dialog
-          title="Upload New Photo Baby"
-          actions={actions}
-          modal={false}
-          open={openDialog}
-          onRequestClose={this.handleClose}
-        >
-          <AddNewPhoto />
-        </Dialog>
+        {showAddWindow && <AddNewPhoto toggleAddWindow={this.toggleAddWindow}/>}
       </div>
     )
   }

@@ -31,8 +31,8 @@ class App extends React.Component {
           {password === 'chotajunior' ? <Home /> : 
 
             <TextField 
-              style={{marginLeft: '25%', width: '50%', marginTop: '10%'}}
-              hintText="Please enter password Baby.."
+              style={{marginLeft: '5%', width: '90%', marginTop: '100px'}}
+              hintText="Password Baby.."
               onChange={this.handleChange}
               value={password}
             />

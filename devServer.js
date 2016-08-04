@@ -23,7 +23,7 @@ app.post('/addNewPhoto', function(req, res) {
   
   cloudinary.uploader.upload(req.body.imagePreviewUrl, function(result) { 
 
-    res.json({imageInfo: result})
+    res.json({url: result})
   });
 
 })

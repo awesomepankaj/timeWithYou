@@ -18,6 +18,13 @@ body {
     clear: both;
     display: block;
 }
+.addNewPhotoCont {
+  padding: 10px;
+}
+
+.fieldsCont {
+  padding: 40px;
+}
 
 @media only screen and (max-width: 480px) {
 	.contentCard {

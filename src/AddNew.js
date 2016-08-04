@@ -1,6 +1,8 @@
 import React from 'react'
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import BackArrow from 'material-ui/svg-icons/navigation/arrow-back'
 
 
 export default class AddNewPhoto extends React.Component {
@@ -9,7 +11,12 @@ export default class AddNewPhoto extends React.Component {
     super(props)
     this.state = {
       file: '',
-      imagePreviewUrl: '',
+      title: '',
+      subtitle: '',
+      imageUrl: '',
+      location: '',
+      locationDescription: '',
+      description: ''
     }
   }
 
@@ -50,23 +57,100 @@ export default class AddNewPhoto extends React.Component {
     }).then((res) => {
       return res.json()
     }).then((response) => {
-      console.log(response)
+
+
+      this.setState({
+        imageUrl: this.imageUrl 
+      })
     }).catch(() => {
       console.log('something happens bad')
     })
   }
 
-  handleSubmit = () => {
+  onAddPhoto = () => {
+    let photoInfo = {
+      title: this.state.title,
+      subtitle: this.state.subtitle,
+      imageUrl: this.state.imageUrl,
+      location: this.state.location,
+      locationDescription: this.state.locationDescription,
+      description: this.state.description
+    }
 
+    console.log(photoInfo)
+  }
+
+  handleChange = (field, e, value) => {
+    console.log(field, value)
+    this.setState({
+      [field]: value
+    }) 
   }
   
   render() {
+
+    let {title, subtitle, location, locationDescription, description} = this.state
+
+    let inputStyle = {width: '100%', marginTop: 10}
+
     return (
-      <div>
-        <input 
-          type="file"
-          onChange={this.handleChange}
+      <div className="addNewPhotoCont">
+        <FlatButton
+          label="Go back"
+          secondary={true}
+          onTouchTap={this.props.toggleAddWindow}
+          icon={<BackArrow />}
         />
+        <div className="fieldsCont">
+          <input 
+            type="file"
+            onChange={this.handleChange}
+          />
+          <TextField
+            style={inputStyle}
+            floatingLabelText='Title'
+            onChange={this.handleChange.bind(null, 'title')}
+            value={title}
+          />
+          <TextField
+            style={inputStyle}
+            onChange={this.handleChange.bind(null, 'subtitle')}
+            floatingLabelText='Subtitle'
+            value={subtitle}
+          />
+          <TextField
+            style={inputStyle}
+            onChange={this.handleChange.bind(null, 'location')}
+            floatingLabelText='Location'
+            value={location}
+          />
+          <TextField
+            style={inputStyle}
+            onChange={this.handleChange.bind(null, 'locationDescription')}
+            floatingLabelText='About Location'
+            value={locationDescription}
+          />
+          <TextField
+            style={inputStyle}
+            onChange={this.handleChange.bind(null, 'description')}
+            floatingLabelText='About Photo'
+            value={description}
+          />
+          <div style={{marginTop: 20, display: 'flex'}}>
+            <RaisedButton 
+              label="Submit"
+              style={{marginRight: 60}}
+              secondary={true}
+              onTouchTap={this.onAddPhoto}
+            />
+            <RaisedButton 
+              label="Cancel"
+              secondary={true}
+              onTouchTap={this.props.toggleAddWindow}
+            />
+          </div>
+        </div>
+
       </div>
     )
   }
