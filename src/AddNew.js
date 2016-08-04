@@ -97,7 +97,8 @@ export default class AddNewPhoto extends React.Component {
       return res.json()
     }).then((response) => {
 
-      console.log(response)
+      this.props.addNewPhotoData(response.newPhotoInfo)
+      this.props.toggleAddWindow()
     })
   }
 

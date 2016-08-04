@@ -42,7 +42,7 @@ app.post('/addNew', function(req, res) {
 
     fs.writeFile('./photoInfo.json', JSON.stringify(jsonData), function(err) {
       if (err) throw err
-      console.log('Created')
+      res.json(req.body)
     })
   }); 
 

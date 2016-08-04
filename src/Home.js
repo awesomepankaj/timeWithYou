@@ -48,6 +48,10 @@ export default class MyAwesomeReactComponent extends React.Component {
       showAddWindow: !this.state.showAddWindow
     })
   } 
+
+  addNewPhotoData = (photoInfo) => {
+    this.state.photosContent.push(photoInfo)
+  }
   
   render() {
 
@@ -78,7 +82,7 @@ export default class MyAwesomeReactComponent extends React.Component {
         {!showAddWindow && this.state.photosContent.map((photoInfo, i) => {
           return <PhotoContainer photoInfo={photoInfo} key={i}/> 
         })}
-        {showAddWindow && <AddNewPhoto toggleAddWindow={this.toggleAddWindow}/>}
+        {showAddWindow && <AddNewPhoto toggleAddWindow={this.toggleAddWindow} addNewPhotoData={this.addNewPhotoData}/>}
       </div>
     )
   }
