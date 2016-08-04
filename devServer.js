@@ -5,6 +5,7 @@ var bodyParser = require('body-parser')
 var webpackConfig = require('./webpack.config.dev');
 var cloudinary = require('cloudinary')
 var config = require('./config')
+var fs = require('fs')
 
 
 var app = express();
@@ -18,6 +19,34 @@ app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/public', express.static('public'));
+
+app.get('/getPhotos', function(req, res) {
+
+  fs.readFile('./photoInfo.json', 'utf8', (err, data) => {
+    if (err) throw err;
+
+    var jsonData = JSON.parse(data)
+
+    res.json(jsonData)
+  }); 
+})
+
+app.post('/addNew', function(req, res) {
+  
+  fs.readFile('./photoInfo.json', 'utf8', (err, data) => {
+    if (err) throw err;
+
+    var jsonData = JSON.parse(data)
+
+    jsonData.photosContent.push(req.body.newPhotoInfo) 
+
+    fs.writeFile('./photoInfo.json', JSON.stringify(jsonData), function(err) {
+      if (err) throw err
+      console.log('Created')
+    })
+  }); 
+
+})
 
 app.post('/addNewPhoto', function(req, res) {
   

@@ -16,11 +16,13 @@ export default class AddNewPhoto extends React.Component {
       imageUrl: '',
       location: '',
       locationDescription: '',
-      description: ''
+      description: '',
+      uploading: false,
+      imagePreviewUrl: ''
     }
   }
 
-  handleChange = (e) => {
+  handleImageChange = (e) => {
 
     let reader = new FileReader()
     let file = e.target.files[0]
@@ -47,6 +49,11 @@ export default class AddNewPhoto extends React.Component {
 
   startUploading = (imagePreviewUrl) => {
 
+    this.setState({
+      uploading: true,
+      imagePreviewUrl: imagePreviewUrl
+    })
+
     fetch('/addNewPhoto', {
       method: 'POST',
       headers: {
@@ -58,9 +65,10 @@ export default class AddNewPhoto extends React.Component {
       return res.json()
     }).then((response) => {
 
-
+      console.log(response)
       this.setState({
-        imageUrl: this.imageUrl 
+        imageUrl: response.url.secure_url,
+        uploading: false
       })
     }).catch(() => {
       console.log('something happens bad')
@@ -76,8 +84,21 @@ export default class AddNewPhoto extends React.Component {
       locationDescription: this.state.locationDescription,
       description: this.state.description
     }
+    
+    fetch('/addNew', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({newPhotoInfo: photoInfo})
+    }).then((res) => {
 
-    console.log(photoInfo)
+      return res.json()
+    }).then((response) => {
+
+      console.log(response)
+    })
   }
 
   handleChange = (field, e, value) => {
@@ -89,7 +110,7 @@ export default class AddNewPhoto extends React.Component {
   
   render() {
 
-    let {title, subtitle, location, locationDescription, description} = this.state
+    let {title, subtitle, location, locationDescription, description, uploading, imagePreviewUrl} = this.state
 
     let inputStyle = {width: '100%', marginTop: 10}
 
@@ -102,10 +123,14 @@ export default class AddNewPhoto extends React.Component {
           icon={<BackArrow />}
         />
         <div className="fieldsCont">
-          <input 
-            type="file"
-            onChange={this.handleChange}
-          />
+          <div style={{display: 'flex'}}>
+            <input 
+              type="file"
+              onChange={this.handleImageChange}
+            />
+            {imagePreviewUrl && <img src={imagePreviewUrl} style={{width: '60px', height: '60px'}}/>}
+            {uploading && <p>wait..</p>}
+          </div>
           <TextField
             style={inputStyle}
             floatingLabelText='Title'

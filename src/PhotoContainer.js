@@ -28,7 +28,7 @@ export default class PhotoContainer extends React.Component {
           overlay={<CardTitle title={photoInfo.location} subtitle={photoInfo.locationContent} />}
           onTouchTap={this.onPhotoClick}
         >
-          <img src={photoInfo.image} style={{maxWidth: '500px'}}/>
+          <img src={photoInfo.imageUrl} style={{maxWidth: '500px'}}/>
         </CardMedia>
         <CardText>
           {photoInfo.description}
